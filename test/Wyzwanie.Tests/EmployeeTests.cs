@@ -7,23 +7,36 @@ namespace Wyzwanie.Tests
 
     public class EmployeeTests
     {
-        [Fact]
-        public void Test1()
+        private Employee employee;
+
+        private void Init()
         {
-            //arrange
-            var emp = new Employee("Adam");
+            employee = new Employee("Superman");
+        }
 
-            emp.AddGrade(10);
-            emp.AddGrade(54);
-            emp.AddGrade(92);
+        [Fact]
+        public void AddGrade_WhenCalled_ShouldChangeAvarage()
+        {
+            Init();
 
-            //act
-            var result = emp.GetStatistics();
+            employee.AddGrade("5");
+            employee.AddGrade("4");
 
-            //assert
-            Assert.Equal(52, result.Average);
-            Assert.Equal(92, result.High);
-            Assert.Equal(10, result.Low);
+            Assert.Equal(4.5, employee.GetStatistics().Average);
+
+        }
+
+        [Fact]
+        public void AddGrade_WhenCalled_ShouldAddGradesToLlist()
+        {
+
+            Employee employee2 = new Employee("Test");
+
+            employee2.AddGrade("5");
+            employee2.AddGrade("4");
+
+            Assert.Equal(2, employee2.GetStatistics().Count);
+
         }
     }
 }
