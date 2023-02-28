@@ -33,7 +33,6 @@ namespace WyzwanieApp
             save.SaveGrade(Name, GradeConversion(grade));
         }
 
-
         public override string Name
         {
             get
@@ -105,7 +104,6 @@ namespace WyzwanieApp
                 "1" or "2" or "3" or "4" or "5" or "6" => double.Parse(plusminusgrade),
                 _ => throw new ArgumentException("Grade is out of the range")
             };
-
 
             return grade;
         }
