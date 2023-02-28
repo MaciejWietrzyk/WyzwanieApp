@@ -107,7 +107,5 @@ namespace WyzwanieApp
 
             return grade;
         }
-
-
     }
 }
