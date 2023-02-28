@@ -4,7 +4,6 @@ using System.IO;
 
 namespace WyzwanieApp
 {
-
     public class Employee : EmployeeBase
     {
         public delegate void LowerGradeDelegate(object sender, EventArgs args);
@@ -27,10 +26,16 @@ namespace WyzwanieApp
             Console.WriteLine("Oh, no! We should inform boss about this fact");
         }
 
-        public void AddGrade(string grade)
+        public bool AddGrade(string grade)
         {
-            AddPlusMinusGrade(grade);
-            save.SaveGrade(Name, GradeConversion(grade));
+            var convertedGrade = GradeConversion(grade);
+            if (convertedGrade > 0)
+            {
+                AddPlusMinusGrade(grade);
+                save.SaveGrade(Name, convertedGrade);
+                return true;
+            }
+            return false;
         }
 
         public override string Name
@@ -82,28 +87,33 @@ namespace WyzwanieApp
             {
                 LowerGrade(this, new EventArgs());
             }
-
         }
 
         private double GradeConversion(string plusminusgrade)
         {
             double grade = 0.0;
-
-            grade = plusminusgrade switch
+            try
             {
-                "1+" or "+1" => 1.5,
-                "2+" or "+2" => 2.5,
-                "3+" or "+3" => 3.5,
-                "4+" or "+4" => 4.5,
-                "5+" or "+5" => 5.5,
-                "2-" or "-2" => 1.75,
-                "3-" or "-3" => 2.75,
-                "4-" or "-4" => 3.75,
-                "5-" or "-5" => 4.75,
-                "6-" or "-6" => 5.75,
-                "1" or "2" or "3" or "4" or "5" or "6" => double.Parse(plusminusgrade),
-                _ => throw new ArgumentException("Grade is out of the range")
-            };
+                grade = plusminusgrade switch
+                {
+                    "1+" or "+1" => 1.5,
+                    "2+" or "+2" => 2.5,
+                    "3+" or "+3" => 3.5,
+                    "4+" or "+4" => 4.5,
+                    "5+" or "+5" => 5.5,
+                    "2-" or "-2" => 1.75,
+                    "3-" or "-3" => 2.75,
+                    "4-" or "-4" => 3.75,
+                    "5-" or "-5" => 4.75,
+                    "6-" or "-6" => 5.75,
+                    "1" or "2" or "3" or "4" or "5" or "6" => double.Parse(plusminusgrade),
+                    _ => throw new ArgumentException("Grade is out of the range")
+                };
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return grade;
         }
